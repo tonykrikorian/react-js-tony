@@ -1,9 +1,17 @@
 import React, { Component } from "react";
 import { getMovies } from "../services/fakeMovieService";
-
+import Like from "../Liked/Like";
 class Movies extends Component {
   state = {
     movies: getMovies()
+  };
+
+  handleLike = movie => {
+    const movies = [...this.state.movies];
+    const index = movies.indexOf(movie);
+    movies[index] = { ...movies[index] };
+    movies[index].liked = !movies[index].liked;
+    this.setState({ movies });
   };
 
   handleDeleteMovie = id => {
@@ -27,19 +35,26 @@ class Movies extends Component {
               <th>Stock</th>
               <th>Rate</th>
               <th />
+              <th />
             </tr>
           </thead>
           <tbody>
-            {this.state.movies.map(value => (
-              <tr key={value._id}>
-                <td>{value.title}</td>
-                <td>{value.genre.name}</td>
-                <td>{value.numberInStock}</td>
-                <td>{value.dailyRentalRate}</td>
+            {this.state.movies.map(movie => (
+              <tr key={movie._id}>
+                <td>{movie.title}</td>
+                <td>{movie.genre.name}</td>
+                <td>{movie.numberInStock}</td>
+                <td>{movie.dailyRentalRate}</td>
+                <td>
+                  <Like
+                    liked={movie.liked}
+                    onClick={() => this.handleLike(movie)}
+                  />
+                </td>
                 <td>
                   <button
                     className="btn btn-danger"
-                    onClick={() => this.handleDeleteMovie(value._id)}
+                    onClick={() => this.handleDeleteMovie(movie._id)}
                   >
                     Delete
                   </button>
