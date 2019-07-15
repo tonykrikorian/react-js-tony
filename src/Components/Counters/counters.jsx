@@ -3,7 +3,13 @@ import Counter from "../Counter/counter";
 
 class Counters extends Component {
   render() {
-    const { counters, onReset, onIncrement, onDelete } = this.props;
+    const {
+      counters,
+      onReset,
+      onIncrement,
+      onDelete,
+      onDecrement
+    } = this.props;
     if (counters.length === 0) return <p>There are no counters to show</p>;
     return (
       <div>
@@ -16,6 +22,7 @@ class Counters extends Component {
             counter={counter}
             onClick={onIncrement}
             onDelete={onDelete}
+            onDecrement={onDecrement}
           />
         ))}
       </div>
